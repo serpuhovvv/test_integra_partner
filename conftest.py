@@ -24,14 +24,9 @@ def driver_init():
     global driver
     driver = webdriver.Chrome()
     driver.maximize_window()
-
-
-@pytest.fixture
-def driver_loan_setup(driver_init):
     driver.get('http://t-partner.admortgage.us/Default.aspx')
 
     wait_frame_id('contentFrame')
-
     username = wait_xpath('//*[@id="EmailAddress"]')
     password = wait_xpath('//*[@id="Password"]')
     login = wait_xpath('//*[@id="LoginButton"]')
@@ -40,6 +35,10 @@ def driver_loan_setup(driver_init):
     password.send_keys('Welcome1@')
     login.click()
     time.sleep(5)
+
+
+@pytest.fixture
+def driver_loan_setup(driver_init):
 
     switch_to_frame(0)
     switch_to_frame(0)
@@ -78,18 +77,6 @@ def loannumber_import():
 
 @pytest.fixture
 def driver_tests(driver_init):
-
-    driver.get('http://t-partner.admortgage.us/Default.aspx')
-
-    wait_frame_id('contentFrame')
-    username = wait_xpath('//*[@id="EmailAddress"]')
-    password = wait_id('Password')
-    login = wait_xpath('//*[@id="LoginButton"]')
-
-    username.send_keys('serg.pudikov@admortgage.com')
-    password.send_keys('Welcome1@')
-    login.click()
-    time.sleep(5)
 
     switch_to_frame(0)
     switch_to_frame(0)
