@@ -3,7 +3,7 @@
 
 # Delete from git cache: git rm --cached "file_path"
 
-# Launch: pytest --alluredir reports, pytest tests/test_integra_basic.py --alluredir reports
+# Launch: pytest --alluredir reports, pytest tests/test_integra_partner_basic.py --alluredir reports
 # Report:  allure serve reports
 
 import pytest
@@ -15,7 +15,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver import ActionChains
 from pathlib import Path
 
-test_loan = ''
+test_loan = '9007119'
 
 produrl = 'https://partner.admortgage.com/Default.aspx'
 testurl = 'http://t-partner.admortgage.us/Default.aspx'
@@ -62,7 +62,10 @@ def driver_loan_setup(driver_init):
     time.sleep(5)
     upload_file = driver.find_element(By.ID, "AjaxFileUpload_Html5InputFile")
 
-    file_path = Path.cwd().parent.joinpath('docs', 'kensp.xml')  # Path.cwd().joinpath('docs', 'kensp.xml')
+    file_path = Path.cwd().joinpath('docs', 'kensp.xml')
+    # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
+    # Path for Run: Path.cwd().parent.joinpath('docs', 'kensp.xml')
+
     upload_file.send_keys(str(file_path))
     wait_xpath('//*[@id="AjaxFileUpload_UploadOrCancelButton"]').click()
     switch_to_default_content()
