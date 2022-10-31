@@ -1,13 +1,9 @@
-# pip install pytest
-# pip install selenium
-# pip install pytest-selenium
-# pip install requests
-# pip install allure-pytest
-# pip install pytest-xdist
+# Create requirements: pip freeze > requirements.txt
+# Install requirements: pip install -r requirements.txt
 
-# delete from git cache: git rm --cached "file_path"
+# Delete from git cache: git rm --cached "file_path"
 
-# Launch: pytest --alluredir reports
+# Launch: pytest --alluredir reports, pytest tests/test_integra_basic.py --alluredir reports
 # Report:  allure serve reports
 
 import pytest
@@ -17,14 +13,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver import ActionChains
+from pathlib import Path
+
+test_loan = ''
+
+produrl = 'https://partner.admortgage.com/Default.aspx'
+testurl = 'http://t-partner.admortgage.us/Default.aspx'
 
 
 @pytest.fixture
 def driver_init():
     global driver
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome()  # executable_path='./driver/xxx.exe'
     driver.maximize_window()
-    driver.get('http://t-partner.admortgage.us/Default.aspx')
+    driver.get(testurl)
 
     wait_frame_id('contentFrame')
     username = wait_xpath('//*[@id="EmailAddress"]')
@@ -39,7 +41,6 @@ def driver_init():
 
 @pytest.fixture
 def driver_loan_setup(driver_init):
-
     switch_to_frame(0)
     switch_to_frame(0)
     wait_xpath('//*[@id="ImportLoanButton"]').click()
@@ -49,6 +50,7 @@ def driver_loan_setup(driver_init):
 
     switch_to_frame('BusinessChannelSelection')
     wait_xpath('//*[@id="BusinessChannelDropDownList"]').click()
+    time.sleep(2)
     wait_xpath('//*[@id="BusinessChannelDropDownList"]/option[3]').click()
     switch_to_default_content()
 
@@ -59,15 +61,18 @@ def driver_loan_setup(driver_init):
     driver.switch_to.frame(0)
     time.sleep(5)
     upload_file = driver.find_element(By.ID, "AjaxFileUpload_Html5InputFile")
-    upload_file.send_keys('C:/Users/serg.pudikov/PycharmProjects/test_integra_partner/docs/kensp.xml')
+
+    file_path = Path.cwd().parent.joinpath('docs', 'kensp.xml')  # Path.cwd().joinpath('docs', 'kensp.xml')
+    upload_file.send_keys(str(file_path))
     wait_xpath('//*[@id="AjaxFileUpload_UploadOrCancelButton"]').click()
     switch_to_default_content()
+    time.sleep(10)
 
     global loannumber
     loannumber = wait_xpath('//*[@id="Row1"]/td[2]').text
 
     yield driver
-    driver.close()
+    driver.quit()
 
 
 @pytest.fixture
@@ -77,10 +82,10 @@ def loannumber_import():
 
 @pytest.fixture
 def driver_tests(driver_init):
-
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys('9006772')  # Change to loannumber
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
+    time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()
     time.sleep(2)
@@ -94,10 +99,37 @@ def driver_tests(driver_init):
     action.double_click(a)
     action.perform()
     switch_to_default_content()
-    time.sleep(2)
+    time.sleep(5)
 
     yield driver
-    driver.close()
+    driver.quit()
+
+
+def exit_loan():
+    driver.switch_to.window(driver.window_handles[0])
+    switch_to_default_content()
+    driver.refresh()
+    switch_to_frame(0)
+    switch_to_frame(0)
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
+    time.sleep(2)
+    wait_xpath('//*[@id="SearchButton"]').click()
+    switch_to_default_content()
+    time.sleep(2)
+
+    switch_to_frame(0)
+    switch_to_frame(0)
+    switch_to_frame(0)
+    time.sleep(2)
+    action = ActionChains(driver)
+    a = wait_xpath('//*[@id="PipelineRow1"]/td[2]')
+    action.double_click(a)
+    action.perform()
+    switch_to_default_content()
+    time.sleep(5)
+
+    wait_id('ExitLoanli').click()
+    time.sleep(10)
 
 
 def wait_xpath(xpath):
@@ -113,6 +145,15 @@ def wait_id(id):
     element = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable(
             (By.ID, id)
+        )
+    )
+    return element
+
+
+def wait_class(class_name):
+    element = WebDriverWait(driver, 20).until(
+        EC.element_to_be_clickable(
+            (By.CLASS_NAME, class_name)
         )
     )
     return element
