@@ -16,6 +16,7 @@ from conftest import switch_to_frame
 from conftest import switch_to_parent_frame
 from conftest import switch_to_default_content
 from conftest import exit_loan
+from conftest import select_option
 from pathlib import Path
 
 
@@ -41,6 +42,7 @@ def test_loan_setup(driver_loan_setup, loannumber_import):
 @allure.feature('Basic Tests')
 @allure.story('Price/Lock')
 def test_price_lock(driver_tests):
+
     try:
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Price / Lock').click()
         time.sleep(2)
@@ -48,11 +50,9 @@ def test_price_lock(driver_tests):
         switch_to_frame(0)
         switch_to_frame(0)
 
-        wait_id('LoanTypeDropDownList').click()
-        wait_xpath('//*[@id="LoanTypeDropDownList"]/option[2]').click()
+        select_option('LoanTypeDropDownList', 'Conventional')
 
-        wait_id('DocTypeDropDownList').click()
-        wait_xpath('//*[@id="DocTypeDropDownList"]/option[2]').click()
+        select_option('DocTypeDropDownList', 'CONV/GOV/JUMBO: 1-2Y Full Doc')
 
         wait_id('InvalidProductsCheckBox').click()
 
@@ -84,6 +84,7 @@ def test_price_lock(driver_tests):
                           attachment_type=AttachmentType.PNG)
         print(ex)
         assert False
+
     finally:
         exit_loan()
 
@@ -91,14 +92,14 @@ def test_price_lock(driver_tests):
 @allure.feature('Basic Tests')
 @allure.story('Credit Reissue')
 def test_credit_reissue(driver_tests):
+
     try:
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Credit Reissue').click()
         time.sleep(2)
 
         wait_frame_id('contentFrame')
 
-        wait_id('CreditProviderDropDown').click()
-        wait_xpath('//*[@id="CreditProviderDropDown"]/option[2]').click()
+        select_option('CreditProviderDropDown', 'UNIVERSAL CREDIT SERVICES [ML]')
         time.sleep(2)
 
         wait_id('customCrLogin').send_keys('SergPu')
@@ -142,5 +143,6 @@ def test_credit_reissue(driver_tests):
                           attachment_type=AttachmentType.PNG)
         print(ex)
         assert False
+
     finally:
         exit_loan()
