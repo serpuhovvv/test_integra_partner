@@ -54,12 +54,16 @@ def test_price_lock(driver_tests):
         switch_to_frame(0)
 
         select_option('LoanTypeDropDownList', 'Conventional')
+        time.sleep(1)
 
         select_option('DocTypeDropDownList', 'CONV/GOV/JUMBO: 1-2Y Full Doc')
+        time.sleep(1)
 
         wait_id('InvalidProductsCheckBox').click()
+        time.sleep(1)
 
         wait_id('FICONumberBox').send_keys('639')
+        time.sleep(1)
 
         switch_to_default_content()
 
