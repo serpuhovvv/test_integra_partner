@@ -12,6 +12,7 @@ from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.select import Select
 from selenium.webdriver import ActionChains
 from pathlib import Path
 
@@ -49,9 +50,7 @@ def driver_loan_setup(driver_init):
     time.sleep(2)
 
     switch_to_frame('BusinessChannelSelection')
-    wait_xpath('//*[@id="BusinessChannelDropDownList"]').click()
-    time.sleep(2)
-    wait_xpath('//*[@id="BusinessChannelDropDownList"]/option[3]').click()
+    select_option('BusinessChannelDropDownList', 'Wholesale')
     switch_to_default_content()
 
     wait_xpath('//*[@id="btnOkay"]').click()
@@ -176,3 +175,8 @@ def switch_to_parent_frame():
 
 def switch_to_default_content():
     driver.switch_to.default_content()
+
+
+def select_option(element_id, text):
+    opt = Select(wait_id(element_id))
+    opt.select_by_visible_text(text)
