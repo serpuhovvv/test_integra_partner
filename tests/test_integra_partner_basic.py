@@ -11,6 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from conftest import wait_xpath
 from conftest import wait_id
 from conftest import wait_class
+from conftest import long_wait_class
 from conftest import wait_frame_id
 from conftest import switch_to_frame
 from conftest import switch_to_parent_frame
@@ -117,12 +118,10 @@ def test_credit_reissue(driver_tests):
         wait_id('CreditReferenceWebText').send_keys('26722153')
 
         wait_id('AccessButton').click()
-        time.sleep(30)
 
         switch_to_default_content()
 
-        time.sleep(2)
-        wait_class('dialog-confirm').click()
+        long_wait_class('dialog-confirm').click()
         time.sleep(5)
 
         wait_frame_id('contentFrame')
@@ -143,6 +142,47 @@ def test_credit_reissue(driver_tests):
             allure.attach(driver_tests.get_screenshot_as_png(), name='credit_reissue_screenshot',
                           attachment_type=AttachmentType.PNG)
         driver_tests.close()
+
+    except Exception as ex:
+        with allure.step('Error screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        print(ex)
+        assert False
+
+    finally:
+        exit_loan()
+
+
+@allure.feature('Basic Tests')
+@allure.story('AUS')
+def test_aus(driver_tests):
+    try:
+        driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Run AUS').click()
+        time.sleep(2)
+
+        wait_frame_id('contentFrame')
+
+        select_option('AusSelectionDropDown', 'Both DU and LPA')
+        time.sleep(2)
+
+        select_option('CreditProviderDropDown', 'UNIVERSAL CREDIT SERVICES [ML]')
+        time.sleep(2)
+
+        wait_id('customCrLogin').send_keys('SergPu')
+        wait_id('customCrPassword').send_keys('Loan321@')
+        time.sleep(2)
+
+        wait_id('AccessButton').click()
+
+        switch_to_default_content()
+
+        long_wait_class('dialog-confirm').click()
+        time.sleep(5)
+
+        wait_id('FindingsButton').click()
+
+        wait_id('CreditButton').click()
 
     except Exception as ex:
         with allure.step('Error screenshot'):

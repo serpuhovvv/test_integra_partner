@@ -16,7 +16,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver import ActionChains
 from pathlib import Path
 
-test_loan = '9007119'
+test_loan = '9007174'
 
 produrl = 'https://partner.admortgage.com/Default.aspx'
 testurl = 'http://t-partner.admortgage.us/Default.aspx'
@@ -86,7 +86,7 @@ def loannumber_import():
 def driver_tests(driver_init):
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()
@@ -113,7 +113,7 @@ def exit_loan():
     driver.refresh()
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()
@@ -154,6 +154,15 @@ def wait_id(id):
 
 def wait_class(class_name):
     element = WebDriverWait(driver, 20).until(
+        EC.element_to_be_clickable(
+            (By.CLASS_NAME, class_name)
+        )
+    )
+    return element
+
+
+def long_wait_class(class_name):
+    element = WebDriverWait(driver, 150).until(
         EC.element_to_be_clickable(
             (By.CLASS_NAME, class_name)
         )
