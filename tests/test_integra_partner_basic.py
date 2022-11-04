@@ -137,7 +137,7 @@ def test_credit_reissue(driver_tests):
         time.sleep(5)
 
         driver_tests.switch_to.window(driver_tests.window_handles[1])
-        driver_tests.save_screenshot('../screenshots/credit_reissue_screenshot.png')
+        driver_tests.save_screenshot('../screenshots/credit reissue/credit_reissue_screenshot.png')
         with allure.step('Credit Reissue Screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='credit_reissue_screenshot',
                           attachment_type=AttachmentType.PNG)
@@ -157,6 +157,7 @@ def test_credit_reissue(driver_tests):
 @allure.feature('Basic Tests')
 @allure.story('AUS')
 def test_aus(driver_tests):
+
     try:
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Run AUS').click()
         time.sleep(2)
@@ -180,9 +181,102 @@ def test_aus(driver_tests):
         long_wait_class('dialog-confirm').click()
         time.sleep(5)
 
+# DU 1
+
+        wait_frame_id('contentFrame')
+
         wait_id('FindingsButton').click()
 
+        switch_to_default_content()
+
+        wait_frame_id('dialogframe')
+
+        wait_xpath('//*[@id="AUSReportWidgetGridView_GridView"]/tbody/tr[2]').click()
+        time.sleep(2)
+
+        driver_tests.switch_to.window(driver_tests.window_handles[1])
+        driver_tests.save_screenshot('../screenshots/aus/du_1_screenshot.png')
+        with allure.step('DU 1 Screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='du_1_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        driver_tests.close()
+        time.sleep(2)
+
+        driver_tests.switch_to.window(driver_tests.window_handles[0])
+
+        switch_to_default_content()
+
+# LPA 1
+
+        wait_frame_id('contentFrame')
+
+        wait_id('FindingsButton').click()
+
+        switch_to_default_content()
+
+        wait_frame_id('dialogframe')
+
+        wait_xpath('//*[@id="AUSReportWidgetGridView_GridView"]/tbody/tr[3]').click()
+        time.sleep(2)
+
+        driver_tests.switch_to.window(driver_tests.window_handles[1])
+        driver_tests.save_screenshot('../screenshots/aus/lpa_1_screenshot.png')
+        with allure.step('LPA 1 Screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='lpa_1_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        driver_tests.close()
+
+        driver_tests.switch_to.window(driver_tests.window_handles[0])
+
+        switch_to_default_content()
+
+# DU 2
+
+        wait_frame_id('contentFrame')
+
         wait_id('CreditButton').click()
+
+        switch_to_default_content()
+
+        wait_frame_id('dialogframe')
+
+        wait_xpath('//*[@id="AUSReportWidgetGridView_GridView"]/tbody/tr[2]').click()
+        time.sleep(2)
+
+        driver_tests.switch_to.window(driver_tests.window_handles[1])
+        driver_tests.save_screenshot('../screenshots/aus/du_2_screenshot.png')
+        with allure.step('DU 2 Screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='du_2_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        driver_tests.close()
+
+        driver_tests.switch_to.window(driver_tests.window_handles[0])
+
+        switch_to_default_content()
+
+# LPA 2
+
+        wait_frame_id('contentFrame')
+
+        wait_id('CreditButton').click()
+
+        switch_to_default_content()
+
+        wait_frame_id('dialogframe')
+
+        wait_xpath('//*[@id="AUSReportWidgetGridView_GridView"]/tbody/tr[3]').click()
+        time.sleep(2)
+
+        driver_tests.switch_to.window(driver_tests.window_handles[1])
+        driver_tests.save_screenshot('../screenshots/aus/lpa_2_screenshot.png')
+        with allure.step('LPA 2 Screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='lpa_2_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        driver_tests.close()
+
+        driver_tests.switch_to.window(driver_tests.window_handles[0])
+
+        switch_to_default_content()
 
     except Exception as ex:
         with allure.step('Error screenshot'):

@@ -16,7 +16,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver import ActionChains
 from pathlib import Path
 
-test_loan = '9007174'
+test_loan = '9007183'
 
 produrl = 'https://partner.admortgage.com/Default.aspx'
 testurl = 'http://t-partner.admortgage.us/Default.aspx'
@@ -61,7 +61,7 @@ def driver_loan_setup(driver_init):
     time.sleep(5)
     upload_file = driver.find_element(By.ID, "AjaxFileUpload_Html5InputFile")
 
-    file_path = Path.cwd().joinpath('docs', 'kensp.xml')
+    file_path = Path.cwd().parent.joinpath('docs', 'kensp.xml')
     # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
     # Path for Run: Path.cwd().parent.joinpath('docs', 'kensp.xml')
 
