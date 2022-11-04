@@ -1,2 +1,2 @@
 /reports/*
-/screenshots/*.png
+/screenshots/**/*.png
