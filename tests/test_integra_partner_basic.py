@@ -287,3 +287,29 @@ def test_aus(driver_tests):
 
     finally:
         exit_loan()
+
+
+@allure.feature('Basic Tests')
+@allure.story('Mortgage Insurance')
+def test_mortgage_insurance(driver_tests):
+
+    try:
+        driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Mortgage Insurance').click()
+        time.sleep(2)
+
+        wait_frame_id('contentFrame')
+
+        select_option('MIReferenceDropDown', 'MIBestEx - MI Best Execution')
+        time.sleep(2)
+
+        wait_id('RequestMultiQuoteButton').click()
+
+    except Exception as ex:
+        with allure.step('Error screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        print(ex)
+        assert False
+
+    finally:
+        exit_loan()
