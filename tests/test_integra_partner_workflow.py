@@ -11,4 +11,3 @@ from conftest import wait_frame_id
 from conftest import switch_to_frame
 from conftest import switch_to_parent_frame
 from conftest import switch_to_default_content
-

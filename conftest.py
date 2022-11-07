@@ -16,10 +16,16 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver import ActionChains
 from pathlib import Path
 
-test_loan = '9007183'
+test_loan = '9007209'
 
-produrl = 'https://partner.admortgage.com/Default.aspx'
+file_path = Path.cwd().joinpath('docs', 'kensp.xml')
+# Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
+# Path for Run: Path.cwd().parent.joinpath('docs', 'kensp.xml')
+
 testurl = 'http://t-partner.admortgage.us/Default.aspx'
+
+username = 'serg.pudikov@admortgage.com'
+password = 'Welcome1@'
 
 
 @pytest.fixture
@@ -30,13 +36,9 @@ def driver_init():
     driver.get(testurl)
 
     wait_frame_id('contentFrame')
-    username = wait_xpath('//*[@id="EmailAddress"]')
-    password = wait_xpath('//*[@id="Password"]')
-    login = wait_xpath('//*[@id="LoginButton"]')
-
-    username.send_keys('serg.pudikov@admortgage.com')
-    password.send_keys('Welcome1@')
-    login.click()
+    wait_xpath('//*[@id="EmailAddress"]').send_keys(username)
+    wait_xpath('//*[@id="Password"]').send_keys(password)
+    wait_xpath('//*[@id="LoginButton"]').click()
     time.sleep(5)
 
 
@@ -61,10 +63,6 @@ def driver_loan_setup(driver_init):
     time.sleep(5)
     upload_file = driver.find_element(By.ID, "AjaxFileUpload_Html5InputFile")
 
-    file_path = Path.cwd().parent.joinpath('docs', 'kensp.xml')
-    # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
-    # Path for Run: Path.cwd().parent.joinpath('docs', 'kensp.xml')
-
     upload_file.send_keys(str(file_path))
     wait_xpath('//*[@id="AjaxFileUpload_UploadOrCancelButton"]').click()
     switch_to_default_content()
@@ -86,7 +84,7 @@ def loannumber_import():
 def driver_tests(driver_init):
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()
@@ -113,7 +111,7 @@ def exit_loan():
     driver.refresh()
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()

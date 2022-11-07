@@ -303,6 +303,64 @@ def test_mortgage_insurance(driver_tests):
         time.sleep(2)
 
         wait_id('RequestMultiQuoteButton').click()
+        time.sleep(2)
+
+        switch_to_default_content()
+
+        wait_frame_id('dialogframe')
+
+        wait_id('InsurerGridView_InsurerGridView_GridView_ctl02_ctl00').click()
+        wait_id('InsurerGridView_InsurerGridView_GridView_ctl03_ctl00').click()
+        wait_id('InsurerGridView_InsurerGridView_GridView_ctl04_ctl00').click()
+        wait_id('InsurerGridView_InsurerGridView_GridView_ctl05_ctl00').click()
+        wait_id('InsurerGridView_InsurerGridView_GridView_ctl06_ctl00').click()
+        time.sleep(2)
+
+        wait_id('RequestQuoteButton').click()
+        time.sleep(2)
+
+        switch_to_default_content()
+
+        wait_id('btnCancel').click()
+
+        wait_frame_id('dialogframe')
+
+        long_wait_class('grid_Item')
+
+        switch_to_default_content()
+
+        wait_id('btnCancel').click()
+
+        driver_tests.save_screenshot('../screenshots/mi/mi_screenshot.png')
+        with allure.step('MI Screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='mi_screenshot',
+                          attachment_type=AttachmentType.PNG)
+
+    except Exception as ex:
+        with allure.step('Error screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        print(ex)
+        assert False
+
+    finally:
+        exit_loan()
+
+
+@allure.feature('Basic Tests')
+@allure.story('Doc Manager')
+def test_doc_manager(driver_tests):
+
+    try:
+        driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Doc Manager').click()
+        time.sleep(5)
+
+        # Добавить скролл вниз
+
+        driver_tests.save_screenshot('../screenshots/docmanager/docmanager_screenshot.png')
+        with allure.step('Doc Manager Screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='docmanager_screenshot',
+                          attachment_type=AttachmentType.PNG)
 
     except Exception as ex:
         with allure.step('Error screenshot'):
