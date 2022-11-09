@@ -348,26 +348,22 @@ def test_mortgage_insurance(driver_tests):
 
 
 @allure.feature('Basic Tests')
-@allure.story('Doc Manager')
-def test_doc_manager(driver_tests):
+@allure.story('EDOC')
+def test_edoc(driver_edoc):
 
     try:
-        driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Doc Manager').click()
-        time.sleep(5)
-
-        # Добавить скролл вниз
-
-        driver_tests.save_screenshot('../screenshots/docmanager/docmanager_screenshot.png')
-        with allure.step('Doc Manager Screenshot'):
-            allure.attach(driver_tests.get_screenshot_as_png(), name='docmanager_screenshot',
-                          attachment_type=AttachmentType.PNG)
+        searchbar = WebDriverWait(driver_edoc, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id=":r4t:"]')))
+        searchbar.click()
+        searchbar.send_keys('9007239')
+        result = WebDriverWait(driver_edoc, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="popover"]/div[3]/div/a/div')))
+        ActionChains(driver_edoc)\
+            .click_and_hold(result)\
+            .release(result)\
+            .perform()
 
     except Exception as ex:
         with allure.step('Error screenshot'):
-            allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
+            allure.attach(driver_edoc.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
         print(ex)
         assert False
-
-    finally:
-        exit_loan()
