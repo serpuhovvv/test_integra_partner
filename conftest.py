@@ -132,6 +132,28 @@ def exit_loan():
     time.sleep(10)
 
 
+@pytest.fixture
+def driver_edoc():
+    driv = webdriver.Chrome()
+    driv.maximize_window()
+
+    driv.get('https://edoc.admortgage.us/login')
+
+    input_username = WebDriverWait(driv, 10).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id=":r0:"]')))
+    input_password = WebDriverWait(driv, 10).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id=":r1:"]')))
+    login_button = WebDriverWait(driv, 10).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id=":r2:"]')))
+
+    input_username.send_keys('testUser')
+    input_password.send_keys('Pass')
+    login_button.click()
+
+    yield driv
+    driv.close()
+
+
 def wait_xpath(xpath):
     element = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable(
