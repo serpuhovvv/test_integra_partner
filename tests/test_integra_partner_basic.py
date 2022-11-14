@@ -345,25 +345,3 @@ def test_mortgage_insurance(driver_tests):
 
     finally:
         exit_loan()
-
-
-@allure.feature('Basic Tests')
-@allure.story('EDOC')
-def test_edoc(driver_edoc):
-
-    try:
-        searchbar = WebDriverWait(driver_edoc, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id=":r4t:"]')))
-        searchbar.click()
-        searchbar.send_keys('9007239')
-        result = WebDriverWait(driver_edoc, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="popover"]/div[3]/div/a/div')))
-        ActionChains(driver_edoc)\
-            .click_and_hold(result)\
-            .release(result)\
-            .perform()
-
-    except Exception as ex:
-        with allure.step('Error screenshot'):
-            allure.attach(driver_edoc.get_screenshot_as_png(), name='error_screenshot',
-                          attachment_type=AttachmentType.PNG)
-        print(ex)
-        assert False
