@@ -66,7 +66,7 @@ def driver_loan_setup(driver_init):
     upload_file.send_keys(str(file_path))
     wait_xpath('//*[@id="AjaxFileUpload_UploadOrCancelButton"]').click()
     switch_to_default_content()
-    time.sleep(15)
+    time.sleep(20)
 
     global loannumber
     loannumber = wait_xpath('//*[@id="Row1"]/td[2]').text
