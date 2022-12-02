@@ -16,9 +16,9 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver import ActionChains
 from pathlib import Path
 
-test_loan = '9007209'
+test_loan = '9007397'
 
-file_path = Path.cwd().joinpath('docs', 'kensp.xml')
+file_path = Path.cwd().parent.joinpath('docs', 'kensp.xml')
 # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Run: Path.cwd().parent.joinpath('docs', 'kensp.xml')
 
@@ -66,7 +66,7 @@ def driver_loan_setup(driver_init):
     upload_file.send_keys(str(file_path))
     wait_xpath('//*[@id="AjaxFileUpload_UploadOrCancelButton"]').click()
     switch_to_default_content()
-    time.sleep(20)
+    time.sleep(60)
 
     global loannumber
     loannumber = wait_xpath('//*[@id="Row1"]/td[2]').text
@@ -84,7 +84,7 @@ def loannumber_import():
 def driver_tests(driver_init):
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()
@@ -111,7 +111,7 @@ def exit_loan():
     driver.refresh()
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()
@@ -130,28 +130,6 @@ def exit_loan():
 
     wait_id('ExitLoanli').click()
     time.sleep(10)
-
-
-@pytest.fixture
-def driver_edoc():
-    driv = webdriver.Chrome()
-    driv.maximize_window()
-
-    driv.get('https://edoc.admortgage.us/login')
-
-    input_username = WebDriverWait(driv, 10).until(
-        EC.element_to_be_clickable((By.XPATH, '//*[@id=":r0:"]')))
-    input_password = WebDriverWait(driv, 10).until(
-        EC.element_to_be_clickable((By.XPATH, '//*[@id=":r1:"]')))
-    login_button = WebDriverWait(driv, 10).until(
-        EC.element_to_be_clickable((By.XPATH, '//*[@id=":r2:"]')))
-
-    input_username.send_keys('testUser')
-    input_password.send_keys('Pass')
-    login_button.click()
-
-    yield driv
-    driv.close()
 
 
 def wait_xpath(xpath):

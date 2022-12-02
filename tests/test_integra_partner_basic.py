@@ -23,7 +23,7 @@ from pathlib import Path
 
 @allure.feature('Basic Tests')
 @allure.story('Import Loan')
-def test_loan_setup(driver_loan_setup, loannumber_import):
+def test_import_loan(driver_loan_setup, loannumber_import):
 
     try:
         loanid = wait_xpath('//*[@id="Row1"]/td[2]')
@@ -41,6 +41,29 @@ def test_loan_setup(driver_loan_setup, loannumber_import):
 
     finally:
         exit_loan()
+
+
+@allure.feature('Basic Tests')
+@allure.story('Create Loan')
+def test_create_loan(driver_init):
+
+    try:
+        switch_to_frame(0)
+        switch_to_frame(0)
+        wait_id('CreateLoanButton').click()
+        switch_to_parent_frame()
+        switch_to_parent_frame()
+        time.sleep(2)
+
+        wait_xpath('/html/body/div[2]/table/tbody/tr/td/div/div[4]/span[1]').click()
+        wait_id('BusinessChannelDropDownList')
+
+    except Exception as ex:
+        with allure.step('Error screenshot'):
+            allure.attach(driver_init.get_screenshot_as_png(), name='error_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        print(ex)
+        assert False
 
 
 @allure.feature('Basic Tests')
@@ -335,6 +358,81 @@ def test_mortgage_insurance(driver_tests):
         with allure.step('MI Screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='mi_screenshot',
                           attachment_type=AttachmentType.PNG)
+
+    except Exception as ex:
+        with allure.step('Error screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        print(ex)
+        assert False
+
+    finally:
+        exit_loan()
+
+
+@allure.feature('Basic Tests')
+@allure.story('Appraisal')
+def test_appraisal(driver_tests):
+
+    try:
+        wait_id('Appraisal').click()
+        time.sleep(10)
+        assert driver_tests.current_url == 'https://admortgage.spurams.com/login.aspx?ReturnUrl=%2f'
+
+    except Exception as ex:
+        with allure.step('Error screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        print(ex)
+        assert False
+
+    finally:
+        exit_loan()
+
+
+@allure.feature('Basic Tests')
+@allure.story('Appraisal Center')
+def test_appraisal_center(driver_tests):
+
+    try:
+        driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Appraisal Center').click()
+        time.sleep(2)
+
+    except Exception as ex:
+        with allure.step('Error screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        print(ex)
+        assert False
+
+    finally:
+        exit_loan()
+
+
+@allure.feature('Basic Tests')
+@allure.story('Fees')
+def test_fees(driver_tests):
+
+    try:
+        a
+
+    except Exception as ex:
+        with allure.step('Error screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
+                          attachment_type=AttachmentType.PNG)
+        print(ex)
+        assert False
+
+    finally:
+        exit_loan()
+
+
+@allure.feature('Basic Tests')
+@allure.story('Submit to A&D')
+def test_submit_to_ad(driver_tests):
+
+    try:
+        a
 
     except Exception as ex:
         with allure.step('Error screenshot'):
