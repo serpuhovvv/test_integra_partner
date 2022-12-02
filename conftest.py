@@ -16,9 +16,9 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver import ActionChains
 from pathlib import Path
 
-test_loan = '9007397'
+test_loan = '9007453'
 
-file_path = Path.cwd().parent.joinpath('docs', 'kensp.xml')
+file_path = Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Run: Path.cwd().parent.joinpath('docs', 'kensp.xml')
 
@@ -40,6 +40,9 @@ def driver_init():
     wait_xpath('//*[@id="Password"]').send_keys(password)
     wait_xpath('//*[@id="LoginButton"]').click()
     time.sleep(5)
+
+    yield driver
+    driver.quit()
 
 
 @pytest.fixture
@@ -84,7 +87,7 @@ def loannumber_import():
 def driver_tests(driver_init):
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()
@@ -111,7 +114,7 @@ def exit_loan():
     driver.refresh()
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()

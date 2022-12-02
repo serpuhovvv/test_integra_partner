@@ -34,7 +34,7 @@ def test_import_loan(driver_loan_setup, loannumber_import):
 
     except Exception as ex:
         with allure.step('Error screenshot'):
-            allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
+            allure.attach(driver_loan_setup.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
         print(ex)
         assert False
@@ -56,6 +56,10 @@ def test_create_loan(driver_init):
         time.sleep(2)
 
         wait_xpath('/html/body/div[2]/table/tbody/tr/td/div/div[4]/span[1]').click()
+        time.sleep(2)
+
+        wait_frame_id('dialogframe')
+
         wait_id('BusinessChannelDropDownList')
 
     except Exception as ex:
@@ -376,7 +380,10 @@ def test_appraisal(driver_tests):
 
     try:
         wait_id('Appraisal').click()
-        time.sleep(10)
+        time.sleep(5)
+
+        driver_tests.switch_to.window(driver_tests.window_handles[1])
+
         assert driver_tests.current_url == 'https://admortgage.spurams.com/login.aspx?ReturnUrl=%2f'
 
     except Exception as ex:
@@ -398,6 +405,41 @@ def test_appraisal_center(driver_tests):
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Appraisal Center').click()
         time.sleep(2)
 
+        wait_frame_id('contentFrame')
+
+        wait_id('ServiceLoginClientIdTextEdit').send_keys('juliya.suleymanova@admortgage.com')
+        wait_id('ServiceLoginPasswordTextEdit').send_keys('Welcome1@')
+        wait_id('ServiceLoginButton').click()
+        time.sleep(10)
+
+        a = wait_xpath('//*[@id="ExistingAppraisalOrdersGridView_GridView"]/tbody/tr[2]/td[2]').text
+        url1 = driver_tests.current_url
+
+        wait_id('CreateNewOrderAccordionPane_header').click()
+        time.sleep(5)
+        wait_id('OrderNewApprisalButton').click()
+
+        switch_to_default_content()
+
+        wait_xpath('/html/body/div[2]/table/tbody/tr/td/div/div[4]/span[1]').click()
+        time.sleep(2)
+        wait_class('dialog-confirm').click()
+
+        wait_frame_id('contentFrame')
+
+        wait_id('ExistingOrdersAccordionPane_header').click()
+
+        b = wait_xpath('//*[@id="ExistingAppraisalOrdersGridView_GridView"]/tbody/tr[2]/td[2]').text
+
+        ActionChains(driver_tests).double_click(wait_xpath('//*[@id="ExistingAppraisalOrdersGridView_GridView"]/tbody/tr[2]')).perform()
+
+        driver_tests.switch_to.window(driver_tests.window_handles[1])
+
+        url2 = driver_tests.current_url
+
+        assert a != b \
+               and url1 != url2
+
     except Exception as ex:
         with allure.step('Error screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
@@ -414,7 +456,20 @@ def test_appraisal_center(driver_tests):
 def test_fees(driver_tests):
 
     try:
-        a
+        driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Fees').click()
+        time.sleep(2)
+
+        wait_frame_id('contentFrame')
+
+        wait_id('PreviewFees').click()
+        time.sleep(10)
+
+        driver_tests.switch_to.window(driver_tests.window_handles[1])
+
+        driver_tests.save_screenshot('../screenshots/fees/fees_screenshot.png')
+        with allure.step('Fees Screenshot'):
+            allure.attach(driver_tests.get_screenshot_as_png(), name='fees_screenshot',
+                          attachment_type=AttachmentType.PNG)
 
     except Exception as ex:
         with allure.step('Error screenshot'):
@@ -432,7 +487,11 @@ def test_fees(driver_tests):
 def test_submit_to_ad(driver_tests):
 
     try:
-        a
+        wait_id('Submit Loan').click()
+
+        wait_frame_id('dialogframe')
+
+        wait_id('btnOkay').click()
 
     except Exception as ex:
         with allure.step('Error screenshot'):
