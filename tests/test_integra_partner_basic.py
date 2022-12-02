@@ -487,6 +487,12 @@ def test_fees(driver_tests):
 def test_submit_to_ad(driver_tests):
 
     try:
+        driver_tests.find_element(By.PARTIAL_LINK_TEXT, '1003 Page 1').click()
+        time.sleep(2)
+
+        select_option('BorrowerInfoBor1_VeteranStatusSelection', 'No')
+        time.sleep(2)
+
         wait_id('Submit Loan').click()
 
         wait_frame_id('dialogframe')
