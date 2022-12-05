@@ -1,13 +1,9 @@
-import os
 import allure
 from allure_commons.types import AttachmentType
-from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from conftest import wait_xpath
 from conftest import wait_id
 from conftest import wait_class
@@ -18,7 +14,6 @@ from conftest import switch_to_parent_frame
 from conftest import switch_to_default_content
 from conftest import exit_loan
 from conftest import select_option
-from pathlib import Path
 
 
 @allure.feature('Basic Tests')
@@ -68,6 +63,9 @@ def test_create_loan(driver_init):
                           attachment_type=AttachmentType.PNG)
         print(ex)
         assert False
+
+    finally:
+        driver_init.quit()
 
 
 @allure.feature('Basic Tests')
