@@ -152,7 +152,7 @@ def test_doc_manager(driver_tests):
 
 @allure.feature('Workflow Tests')
 @allure.story('Fees')
-def test_fees(driver_tests):
+def test_fees_wf(driver_tests):
     try:
         time.sleep(2)
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Fees').click()

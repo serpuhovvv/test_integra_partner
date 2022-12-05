@@ -16,7 +16,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver import ActionChains
 from pathlib import Path
 
-test_loan = '9007460'
+test_loan = '9007473'
 
 file_path = Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
@@ -101,7 +101,7 @@ def driver_tests(driver_init):
     action.double_click(a)
     action.perform()
     switch_to_default_content()
-    time.sleep(5)
+    time.sleep(10)
 
     yield driver
     driver.quit()
