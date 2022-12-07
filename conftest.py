@@ -18,6 +18,8 @@ from pathlib import Path
 
 test_loan = '9007473'
 
+sleep = 40
+
 file_path = Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Run: Path.cwd().parent.joinpath('docs', 'kensp.xml')
@@ -39,7 +41,7 @@ def driver_init():
     wait_xpath('//*[@id="EmailAddress"]').send_keys(username)
     wait_xpath('//*[@id="Password"]').send_keys(password)
     wait_xpath('//*[@id="LoginButton"]').click()
-    time.sleep(5)
+    time.sleep(sleep)
 
     yield driver
 
@@ -101,7 +103,7 @@ def driver_tests(driver_init):
     action.double_click(a)
     action.perform()
     switch_to_default_content()
-    time.sleep(10)
+    time.sleep(sleep)
 
     yield driver
     driver.quit()
@@ -128,7 +130,7 @@ def exit_loan():
     action.double_click(a)
     action.perform()
     switch_to_default_content()
-    time.sleep(5)
+    time.sleep(sleep)
 
     wait_id('ExitLoanli').click()
     time.sleep(10)
