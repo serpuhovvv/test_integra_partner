@@ -1,4 +1,14 @@
+stages:
+  - test
+  - history_copy
+
 test-job:
   stage: test
+  artifacts:
+    when: always
+    paths:
+      - reports
+    expire_in: 1 day
   script:
     pytest tests/test_integra_partner_basic.py --alluredir reports
+  allow_failure: true
