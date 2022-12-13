@@ -12,7 +12,7 @@ test-job:
       - allure_results
     expire_in: 1 day
   script:
-    pytest - v tests/test_integra_partner_basic.py --alluredir allure_results
+    pytest -v tests/test_integra_partner_basic.py --alluredir allure_results
   allow_failure: true
 
 hist-job:
@@ -51,4 +51,4 @@ pages:
       - public
     expire_in: never
   needs:
-    - job: generate_report
+    - job: report-job
