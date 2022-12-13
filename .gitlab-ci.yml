@@ -1,3 +1,9 @@
+stages:
+  - test
+  - history_copy
+  - generate_report
+  - report
+
 test-job:
   stage: test
   artifacts:
