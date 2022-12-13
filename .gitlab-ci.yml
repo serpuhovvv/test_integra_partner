@@ -51,4 +51,4 @@ pages:
       - public
     expire_in: never
   needs:
-    - job: generate_report
+    - job: report-job
