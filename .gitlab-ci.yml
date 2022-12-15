@@ -10,6 +10,7 @@ test-job:
     when: always
     paths:
       - allure_results
+      - allure_report
     expire_in: 1 day
   script:
     pytest -v tests/test_integra_partner_basic.py --alluredir allure_results
