@@ -1,6 +1,5 @@
 stages:
   - test
-  - history_copy
   - generate_report
   - report
 
@@ -10,7 +9,6 @@ test-job:
     when: always
     paths:
       - allure_results
-      - allure_report
     expire_in: 1 day
   script:
     pytest -v tests/test_integra_partner_basic.py --alluredir allure_results
@@ -19,11 +17,11 @@ test-job:
 report-job:
   stage: generate_report
   script:
-    - allure generate -c allure_results -o allure_report
+    - allure generate -c allure_results
   artifacts:
     paths:
       - ./allure_results
-      - ./allure_report
+      - ./allure-report
     expire_in: 1 day
   rules:
     - when: always
@@ -32,7 +30,7 @@ pages:
   stage: report
   script:
     - mkdir public
-    - cp -r ./allure_report/* public
+    - cp -r ./allure-report/* public
   artifacts:
     paths:
       - public
