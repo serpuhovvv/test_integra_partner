@@ -15,28 +15,14 @@ test-job:
     pytest -v tests/test_integra_partner_basic.py --alluredir allure_results
   allow_failure: true
 
-hist-job:
-  stage: history_copy
-  artifacts:
-    when: always
-    paths:
-      - allure reports
-    expire_in: 1 day
-  script:
-    - 'curl --location --output artifacts.zip "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/main/download?job=pages&job_token=$CI_JOB_TOKEN"'
-    - unzip artifacts.zip
-    - chmod -R 777 public
-    - cp ./public/history/* ./allure_results
-  allow_failure: true
-
 report-job:
   stage: generate_report
   script:
-    - allure generate -c allure_results -o allure-report
+    - allure generate -c allure_results -o allure_report
   artifacts:
     paths:
-      - ./allure-results
-      - ./allure-report
+      - ./allure_results
+      - ./allure_report
     expire_in: 1 day
   rules:
     - when: always
@@ -45,7 +31,7 @@ pages:
   stage: report
   script:
     - mkdir public
-    - cp -r ./allure-report/* public
+    - cp -r ./allure_report/* public
   artifacts:
     paths:
       - public
