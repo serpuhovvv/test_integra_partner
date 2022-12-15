@@ -18,7 +18,7 @@ from pathlib import Path
 
 test_loan = '9007473'
 
-sleep = 50
+sleep = 30
 
 file_path = Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
