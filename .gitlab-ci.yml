@@ -1,5 +1,6 @@
 stages:
   - test
+  - history_copy
   - generate_report
   - report
 
@@ -13,6 +14,20 @@ test-job:
   script:
     pytest -v tests/test_integra_partner_basic.py --alluredir allure_results
   allow_failure: true
+
+history_copy:
+    stage: history_copy
+    artifacts:
+        when: always
+        paths:
+            - allure_results
+        expire_in: 1 day
+    script:
+        - 'curl --location --output artifacts.zip --header "PRIVATE-TOKEN: glpat-xGzQFG2d2yt4xy8qg1FX" "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/main/download?job=job_name"'
+        - unzip artifacts.zip
+        - chmod -R 777 public
+        - cp -r ./public/history/* ./allure_results
+    allow_failure: true
 
 report-job:
   stage: generate_report
