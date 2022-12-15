@@ -3,7 +3,7 @@
 
 # Delete from git cache: git rm --cached "file_path"
 
-# Launch: pytest -v --alluredir reports, pytest tests/test_integra_partner_basic.py -v --alluredir reports
+# Launch: pytest -v --alluredir reports, pytest -v tests/test_integra_partner_basic.py --alluredir reports
 # Report:  allure serve reports
 
 import pytest
