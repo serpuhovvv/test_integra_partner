@@ -23,6 +23,7 @@ history_copy:
             - allure_results
         expire_in: 1 day
     script:
+        - Remove-item alias:curl
         - 'curl --location --output artifacts.zip --header "PRIVATE-TOKEN: glpat-xGzQFG2d2yt4xy8qg1FX" "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/main/download?job=job_name"'
         - unzip artifacts.zip
         - chmod -R 777 public
