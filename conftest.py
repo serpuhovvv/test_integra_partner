@@ -30,7 +30,7 @@ username = 'serg.pudikov@admortgage.com'
 password = 'Welcome1@'
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture()
 def driver_init():
     global driver
     driver = webdriver.Chrome()  # executable_path='./driver/xxx.exe'

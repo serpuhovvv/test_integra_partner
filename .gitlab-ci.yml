@@ -21,7 +21,7 @@ history_copy:
         - Remove-item alias:curl
         - 'curl --location --output artifacts.zip --header "PRIVATE-TOKEN: glpat-xGzQFG2d2yt4xy8qg1FX" "https://gitlab.com/api/v4/projects/41729950/jobs/artifacts/main/download?job=pages"'
         - Expand-Archive artifacts.zip
-        - Copy-Item -Path ./artifacts/public/history/* -Destination allure_results
+        - Copy-Item -Path ./artifacts/public/history -Destination allure_results
     allow_failure: true
     artifacts:
       when: always
@@ -37,8 +37,8 @@ report-job:
     - allure generate -c allure_results -o allure_report
   artifacts:
     paths:
-      - ./allure_results
-      - ./allure_report
+      - allure_results
+      - allure_report
     expire_in: 1 day
   rules:
     - when: always
@@ -47,7 +47,7 @@ pages:
   stage: pages
   script:
     - mkdir public
-    - Copy-Item -r -Path ./allure_report/* -Destination public
+    - Move-Item -Path ./allure_report/* -Destination public
   artifacts:
     paths:
       - public
