@@ -2,7 +2,7 @@ stages:
   - test
   - history_copy
   - generate_report
-  - report
+  - pages
 
 test-job:
   stage: test
@@ -42,7 +42,7 @@ report-job:
     - when: always
 
 pages:
-  stage: report
+  stage: pages
   script:
     - mkdir public
     - Copy-Item -r ./allure-report/* public
