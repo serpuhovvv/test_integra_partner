@@ -6,14 +6,14 @@ stages:
 
 test-job:
   stage: test
+  script:
+    pytest -v tests/test_integra_partner_basic.py --alluredir allure_results
+  allow_failure: true
   artifacts:
     when: always
     paths:
       - allure_results
     expire_in: 1 day
-  script:
-    pytest -v tests/test_integra_partner_basic.py --alluredir allure_results
-  allow_failure: true
 
 history_copy:
     stage: history_copy
@@ -21,7 +21,7 @@ history_copy:
         - Remove-item alias:curl
         - 'curl --location --output artifacts.zip --header "PRIVATE-TOKEN: glpat-xGzQFG2d2yt4xy8qg1FX" "https://gitlab.com/api/v4/projects/41729950/jobs/artifacts/main/download?job=pages"'
         - Expand-Archive artifacts.zip
-        - Copy-Item ./artifacts/public/history/* ./allure_results
+        - Copy-Item -Path ./artifacts/public/history/* -Destination allure_results
     allow_failure: true
     artifacts:
       when: always
@@ -34,11 +34,11 @@ history_copy:
 report-job:
   stage: generate_report
   script:
-    - allure generate -c allure_results -o allure-report
+    - allure generate -c allure_results -o allure_report
   artifacts:
     paths:
       - ./allure_results
-      - ./allure-report
+      - ./allure_report
     expire_in: 1 day
   rules:
     - when: always
@@ -47,10 +47,8 @@ pages:
   stage: pages
   script:
     - mkdir public
-    - Copy-Item -r ./allure-report/* public
+    - Copy-Item -r -Path ./allure_report/* -Destination public
   artifacts:
     paths:
       - public
     expire_in: never
-  needs:
-    - job: report-job
