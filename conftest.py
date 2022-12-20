@@ -30,7 +30,7 @@ username = 'serg.pudikov@admortgage.com'
 password = 'Welcome1@'
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def driver_init():
     global driver
     driver = webdriver.Chrome()  # executable_path='./driver/xxx.exe'
@@ -48,7 +48,6 @@ def driver_init():
 
 @pytest.fixture
 def driver_loan_setup(driver_init):
-    wait_id('btnCancel').click()
     switch_to_frame(0)
     switch_to_frame(0)
     wait_xpath('//*[@id="ImportLoanButton"]').click()
