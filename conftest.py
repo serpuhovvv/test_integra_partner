@@ -43,13 +43,12 @@ def driver_init():
     wait_xpath('//*[@id="LoginButton"]').click()
     time.sleep(sleep)
 
-    wait_id('btnCancel').click()
-
     yield driver
 
 
 @pytest.fixture
 def driver_loan_setup(driver_init):
+    wait_id('btnCancel').click()
     switch_to_frame(0)
     switch_to_frame(0)
     wait_xpath('//*[@id="ImportLoanButton"]').click()
