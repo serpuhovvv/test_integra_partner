@@ -43,6 +43,8 @@ def driver_init():
     wait_xpath('//*[@id="LoginButton"]').click()
     time.sleep(sleep)
 
+    wait_id('btnCancel').click()
+
     yield driver
 
 
