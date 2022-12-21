@@ -3,7 +3,7 @@
 
 # Delete from git cache: git rm --cached "file_path"
 
-# Launch: pytest --alluredir reports, pytest tests/test_integra_partner_basic.py --alluredir reports
+# Launch: pytest -v --alluredir reports, pytest -v tests/test_integra_partner_basic.py --alluredir reports
 # Report:  allure serve reports
 
 import pytest
@@ -18,7 +18,7 @@ from pathlib import Path
 
 test_loan = '9007473'
 
-sleep = 50
+sleep = 20
 
 file_path = Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
@@ -30,12 +30,13 @@ username = 'serg.pudikov@admortgage.com'
 password = 'Welcome1@'
 
 
-@pytest.fixture
+@pytest.fixture()
 def driver_init():
     global driver
     driver = webdriver.Chrome()  # executable_path='./driver/xxx.exe'
     driver.maximize_window()
     driver.get(testurl)
+    time.sleep(sleep)
 
     wait_frame_id('contentFrame')
     wait_xpath('//*[@id="EmailAddress"]').send_keys(username)
