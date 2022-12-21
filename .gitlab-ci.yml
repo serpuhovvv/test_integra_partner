@@ -8,7 +8,6 @@ test-job:
   stage: test
   script:
     pytest -v tests/test_integra_partner_basic.py --alluredir allure_results
-    mkdir ./allure_results/history
   allow_failure: true
   artifacts:
     when: always
@@ -19,6 +18,7 @@ test-job:
 history_copy:
     stage: history_copy
     script:
+        - mkdir ./allure_results/history
         - Remove-item alias:curl
         - 'curl --location --output artifacts.zip --header "PRIVATE-TOKEN: glpat-xGzQFG2d2yt4xy8qg1FX" "https://gitlab.com/api/v4/projects/41729950/jobs/artifacts/main/download?job=pages"'
         - Expand-Archive artifacts.zip
