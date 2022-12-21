@@ -18,7 +18,7 @@ from pathlib import Path
 
 test_loan = '9007473'
 
-sleep = 50
+sleep = 20
 
 file_path = Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
@@ -36,6 +36,7 @@ def driver_init():
     driver = webdriver.Chrome()  # executable_path='./driver/xxx.exe'
     driver.maximize_window()
     driver.get(testurl)
+    time.sleep(sleep)
 
     wait_frame_id('contentFrame')
     wait_xpath('//*[@id="EmailAddress"]').send_keys(username)
