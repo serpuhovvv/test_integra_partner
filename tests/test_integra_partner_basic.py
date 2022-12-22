@@ -493,7 +493,7 @@ def test_submit_to_ad(driver_tests):
         switch_to_default_content()
 
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, '1003 Page 2').click()
-        time.sleep(5)
+        time.sleep(10)
 
         wait_id('Submit Loan').click()
         time.sleep(2)
