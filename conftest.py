@@ -20,7 +20,7 @@ test_loan = '9007473'
 
 sleep = 20
 
-file_path = Path.cwd().parent.joinpath('docs', 'kensp.xml')
+file_path = Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Pytest: Path.cwd().joinpath('docs', 'kensp.xml')
 # Path for Run: Path.cwd().parent.joinpath('docs', 'kensp.xml')
 
@@ -89,7 +89,7 @@ def loannumber_import():
 def driver_tests(driver_init):
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()
@@ -116,7 +116,7 @@ def exit_loan():
     driver.refresh()
     switch_to_frame(0)
     switch_to_frame(0)
-    wait_xpath('//*[@id="SearchTextBox"]').send_keys(test_loan)  # loannumber  test_loan
+    wait_xpath('//*[@id="SearchTextBox"]').send_keys(loannumber)  # loannumber  test_loan
     time.sleep(2)
     wait_xpath('//*[@id="SearchButton"]').click()
     switch_to_default_content()
@@ -201,24 +201,19 @@ def log_init(dt):
             '<!DOCTYPE html>\n<html>\n<head>\n<title>Test Results</title>\n</head>\n<body>\n<p><span style="font-size:16px"><span style="font-family:Arial,Helvetica,sans-serif"><strong>Test Results ' + str(dt) + '</strong></span></span></p>\n<style type="text/css">\ntable {width: 100%;margin-bottom: 20px;border: 1px solid #dddddd;border-collapse: collapse;}\ntable th {font-weight: bold;padding: 5px;background: #efefef;border: 1px solid #dddddd;}\ntable td {border: 1px solid #dddddd;padding: 5px;}\n</style>\n<table align="left" border="1" cellpadding="1" cellspacing="1" style="width:100%">\n<tbody>\n<tr>\n<td><span style="font-size:14px"><strong><span style="font-family:Arial,Helvetica,sans-serif">Test</span></strong></span></td>\n<td><span style="font-size:14px"><strong><span style="font-family:Arial,Helvetica,sans-serif">Result</span></strong></span></td>\n<td><span style="font-size:14px"><strong><span style="font-family:Arial,Helvetica,sans-serif">Message</span></strong></span></td></tr>\n')
 
 
-def log_passed(test):
+def log_passed(test, message):
     with open('../logs.html', 'a') as file:
         file.write(
-            '\n<tr><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">' + test + '</span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><span style="color:#2ecc71">Passed</span></span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"></span></span></td></tr>\n')
+            '\n<tr><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">' + test + '</span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><span style="color:#2ecc71">Passed</span></span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">' + message + '</span></span></td></tr>\n')
 
 
-def log_failed(test, ex):
+def log_failed(test, err):
     with open('../logs.html', 'a') as file:
         file.write(
-            '\n<tr><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">' + test + '</span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><span style="color:#e74c3c">Failed</span></span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">' + ex + '</span></span></td></tr>\n')
+            '\n<tr><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">' + test + '</span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><span style="color:#e74c3c">Failed</span></span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">' + err + '</span></span></td></tr>\n')
 
 
 def log_write(test):
     with open('../logs.html', 'a') as file:
         file.write(
             '\n<tr><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">' + test + '</span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><span style="color:#e74c3c">Failed</span></span></span></td><td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"></span></span></td></tr>\n')
-
-
-def log_stop():
-    with open('../logs.html', 'a') as file:
-        file.write('\n</tbody>\n</table>\n</body>\n</html>')

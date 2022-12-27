@@ -16,7 +16,6 @@ from conftest import switch_to_default_content
 from conftest import exit_loan
 from conftest import select_option
 from conftest import log_init
-from conftest import log_stop
 from conftest import log_write
 from conftest import log_passed
 from conftest import log_failed
@@ -466,7 +465,7 @@ def test_appraisal_center(driver_tests):
         assert a != b \
                and url1 != url2
 
-        log_passed('Appraisal Center')
+        log_passed('Appraisal Center', 'Appraisal Center request works and leads to the correct web page')
 
     except Exception:
         with allure.step('Error screenshot'):
