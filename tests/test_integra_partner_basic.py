@@ -1,3 +1,4 @@
+import sys
 import allure
 from allure_commons.types import AttachmentType
 from selenium.webdriver import ActionChains
@@ -14,12 +15,19 @@ from conftest import switch_to_parent_frame
 from conftest import switch_to_default_content
 from conftest import exit_loan
 from conftest import select_option
+from conftest import log_init
+from conftest import log_stop
+from conftest import log_write
+from conftest import log_passed
+from conftest import log_failed
+import datetime
+
+log_init(dt=datetime.datetime.now())
 
 
 @allure.feature('Basic Tests')
 @allure.story('Create Loan')
 def test_create_loan(driver_init):
-
     try:
         switch_to_frame(0)
         switch_to_frame(0)
@@ -35,11 +43,14 @@ def test_create_loan(driver_init):
 
         wait_id('BusinessChannelDropDownList')
 
-    except Exception as ex:
+        log_passed('Create Loan')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_init.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print(str(sys.exc_info()))
+        log_failed('Create Loan', (str(sys.exc_info())))
         assert False
 
     finally:
@@ -49,7 +60,6 @@ def test_create_loan(driver_init):
 @allure.feature('Basic Tests')
 @allure.story('Import Loan')
 def test_import_loan(driver_loan_setup, loannumber_import):
-
     try:
         loanid = wait_xpath('//*[@id="Row1"]/td[2]')
         with allure.step('Loan Number'):
@@ -57,11 +67,14 @@ def test_import_loan(driver_loan_setup, loannumber_import):
         print(loannumber_import)
         assert loanid.text == loannumber_import
 
-    except Exception as ex:
+        log_passed('Import Loan')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_loan_setup.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print((str(sys.exc_info())))
+        log_failed('Import Loan', (str(sys.exc_info())))
         assert False
 
     finally:
@@ -71,7 +84,6 @@ def test_import_loan(driver_loan_setup, loannumber_import):
 @allure.feature('Basic Tests')
 @allure.story('Price/Lock')
 def test_price_lock(driver_tests):
-
     try:
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Price / Lock').click()
         time.sleep(2)
@@ -111,11 +123,14 @@ def test_price_lock(driver_tests):
         product_status = wait_xpath('//*[@id="Row22"]/td[2]')
         assert product_status.text == 'Valid'
 
-    except Exception as ex:
+        log_passed('Price/Lock')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print((str(sys.exc_info())))
+        log_failed('Price/Lock', (str(sys.exc_info())))
         assert False
 
     finally:
@@ -125,7 +140,6 @@ def test_price_lock(driver_tests):
 @allure.feature('Basic Tests')
 @allure.story('Credit Reissue')
 def test_credit_reissue(driver_tests):
-
     try:
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Credit Reissue').click()
         time.sleep(2)
@@ -168,11 +182,14 @@ def test_credit_reissue(driver_tests):
                           attachment_type=AttachmentType.PNG)
         driver_tests.close()
 
-    except Exception as ex:
+        log_passed('Credit Reissue')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print((str(sys.exc_info())))
+        log_failed('Credit Reissue', (str(sys.exc_info())))
         assert False
 
     finally:
@@ -182,7 +199,6 @@ def test_credit_reissue(driver_tests):
 @allure.feature('Basic Tests')
 @allure.story('AUS')
 def test_aus(driver_tests):
-
     try:
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Run AUS').click()
         time.sleep(2)
@@ -206,7 +222,7 @@ def test_aus(driver_tests):
         long_wait_class('dialog-confirm').click()
         time.sleep(5)
 
-# DU 1
+        # DU 1
 
         wait_frame_id('contentFrame')
 
@@ -231,7 +247,7 @@ def test_aus(driver_tests):
 
         switch_to_default_content()
 
-# LPA 1
+        # LPA 1
 
         wait_frame_id('contentFrame')
 
@@ -255,7 +271,7 @@ def test_aus(driver_tests):
 
         switch_to_default_content()
 
-# DU 2
+        # DU 2
 
         wait_frame_id('contentFrame')
 
@@ -279,7 +295,7 @@ def test_aus(driver_tests):
 
         switch_to_default_content()
 
-# LPA 2
+        # LPA 2
 
         wait_frame_id('contentFrame')
 
@@ -303,11 +319,14 @@ def test_aus(driver_tests):
 
         switch_to_default_content()
 
-    except Exception as ex:
+        log_passed('AUS')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print((str(sys.exc_info())))
+        log_failed('AUS', (str(sys.exc_info())))
         assert False
 
     finally:
@@ -317,7 +336,6 @@ def test_aus(driver_tests):
 @allure.feature('Basic Tests')
 @allure.story('Mortgage Insurance')
 def test_mortgage_insurance(driver_tests):
-
     try:
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Mortgage Insurance').click()
         time.sleep(2)
@@ -361,11 +379,14 @@ def test_mortgage_insurance(driver_tests):
             allure.attach(driver_tests.get_screenshot_as_png(), name='mi_screenshot',
                           attachment_type=AttachmentType.PNG)
 
-    except Exception as ex:
+        log_passed('Mortgage Insurance')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print((str(sys.exc_info())))
+        log_failed('Mortgage Insurance', (str(sys.exc_info())))
         assert False
 
     finally:
@@ -375,7 +396,6 @@ def test_mortgage_insurance(driver_tests):
 @allure.feature('Basic Tests')
 @allure.story('Appraisal')
 def test_appraisal(driver_tests):
-
     try:
         wait_id('Appraisal').click()
         time.sleep(5)
@@ -384,11 +404,14 @@ def test_appraisal(driver_tests):
 
         assert driver_tests.current_url == 'https://admortgage.spurams.com/login.aspx?ReturnUrl=%2f'
 
-    except Exception as ex:
+        log_passed('Appraisal')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print((str(sys.exc_info())))
+        log_failed('Appraisal', (str(sys.exc_info())))
         assert False
 
     finally:
@@ -398,7 +421,6 @@ def test_appraisal(driver_tests):
 @allure.feature('Basic Tests')
 @allure.story('Appraisal Center')
 def test_appraisal_center(driver_tests):
-
     try:
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Appraisal Center').click()
         time.sleep(2)
@@ -429,7 +451,13 @@ def test_appraisal_center(driver_tests):
 
         b = wait_xpath('//*[@id="ExistingAppraisalOrdersGridView_GridView"]/tbody/tr[2]/td[2]').text
 
-        ActionChains(driver_tests).double_click(wait_xpath('//*[@id="ExistingAppraisalOrdersGridView_GridView"]/tbody/tr[2]')).perform()
+        wait_xpath('//*[@id="ExistingAppraisalOrdersGridView_GridView"]/tbody/tr[2]').click()
+
+        wait_xpath('//*[@id="ExistingAppraisalOrdersGridView_GridView"]/tbody/tr[2]').click()
+
+        ActionChains(driver_tests).double_click(
+            wait_xpath('//*[@id="ExistingAppraisalOrdersGridView_GridView"]/tbody/tr[2]')).perform()
+        time.sleep(5)
 
         driver_tests.switch_to.window(driver_tests.window_handles[1])
 
@@ -438,11 +466,14 @@ def test_appraisal_center(driver_tests):
         assert a != b \
                and url1 != url2
 
-    except Exception as ex:
+        log_passed('Appraisal Center')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print((str(sys.exc_info())))
+        log_failed('Appraisal Center', (str(sys.exc_info())))
         assert False
 
     finally:
@@ -452,7 +483,6 @@ def test_appraisal_center(driver_tests):
 @allure.feature('Basic Tests')
 @allure.story('Fees')
 def test_fees(driver_tests):
-
     try:
         driver_tests.find_element(By.PARTIAL_LINK_TEXT, 'Fees').click()
         time.sleep(2)
@@ -469,11 +499,14 @@ def test_fees(driver_tests):
             allure.attach(driver_tests.get_screenshot_as_png(), name='fees_screenshot',
                           attachment_type=AttachmentType.PNG)
 
-    except Exception as ex:
+        log_passed('Fees')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print((str(sys.exc_info())))
+        log_failed('Fees', (str(sys.exc_info())))
         assert False
 
     finally:
@@ -483,7 +516,6 @@ def test_fees(driver_tests):
 @allure.feature('Basic Tests')
 @allure.story('Submit to A&D')
 def test_submit_to_ad(driver_tests):
-
     try:
         wait_frame_id('contentFrame')
 
@@ -500,11 +532,14 @@ def test_submit_to_ad(driver_tests):
 
         wait_id('btnOkay').click()
 
-    except Exception as ex:
+        log_passed('Submit to A&D')
+
+    except Exception:
         with allure.step('Error screenshot'):
             allure.attach(driver_tests.get_screenshot_as_png(), name='error_screenshot',
                           attachment_type=AttachmentType.PNG)
-        print(ex)
+        print((str(sys.exc_info())))
+        log_failed('Submit to A&D', (str(sys.exc_info())))
         assert False
 
     finally:
