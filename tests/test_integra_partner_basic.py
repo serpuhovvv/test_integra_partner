@@ -42,7 +42,7 @@ def test_create_loan(driver_init):
 
         wait_id('BusinessChannelDropDownList')
 
-        log_passed('Create Loan')
+        log_passed('Create Loan', 'New Loan was successfully created')
 
     except Exception:
         with allure.step('Error screenshot'):
@@ -66,7 +66,7 @@ def test_import_loan(driver_loan_setup, loannumber_import):
         print(loannumber_import)
         assert loanid.text == loannumber_import
 
-        log_passed('Import Loan')
+        log_passed('Import Loan', 'The loan was successfully imported and the loan number is ' + loannumber_import)
 
     except Exception:
         with allure.step('Error screenshot'):
@@ -122,7 +122,7 @@ def test_price_lock(driver_tests):
         product_status = wait_xpath('//*[@id="Row22"]/td[2]')
         assert product_status.text == 'Valid'
 
-        log_passed('Price/Lock')
+        log_passed('Price/Lock', 'Price/Lock set up and product status is valid')
 
     except Exception:
         with allure.step('Error screenshot'):
@@ -181,7 +181,7 @@ def test_credit_reissue(driver_tests):
                           attachment_type=AttachmentType.PNG)
         driver_tests.close()
 
-        log_passed('Credit Reissue')
+        log_passed('Credit Reissue', 'Credit Reissue successfully done')
 
     except Exception:
         with allure.step('Error screenshot'):
@@ -318,7 +318,7 @@ def test_aus(driver_tests):
 
         switch_to_default_content()
 
-        log_passed('AUS')
+        log_passed('AUS', 'AUS Request completed')
 
     except Exception:
         with allure.step('Error screenshot'):
@@ -378,7 +378,7 @@ def test_mortgage_insurance(driver_tests):
             allure.attach(driver_tests.get_screenshot_as_png(), name='mi_screenshot',
                           attachment_type=AttachmentType.PNG)
 
-        log_passed('Mortgage Insurance')
+        log_passed('Mortgage Insurance', 'MI completed')
 
     except Exception:
         with allure.step('Error screenshot'):
@@ -403,7 +403,7 @@ def test_appraisal(driver_tests):
 
         assert driver_tests.current_url == 'https://admortgage.spurams.com/login.aspx?ReturnUrl=%2f'
 
-        log_passed('Appraisal')
+        log_passed('Appraisal', 'Appraisal request completed')
 
     except Exception:
         with allure.step('Error screenshot'):
@@ -498,7 +498,7 @@ def test_fees(driver_tests):
             allure.attach(driver_tests.get_screenshot_as_png(), name='fees_screenshot',
                           attachment_type=AttachmentType.PNG)
 
-        log_passed('Fees')
+        log_passed('Fees', 'Fees submitted')
 
     except Exception:
         with allure.step('Error screenshot'):
@@ -531,7 +531,7 @@ def test_submit_to_ad(driver_tests):
 
         wait_id('btnOkay').click()
 
-        log_passed('Submit to A&D')
+        log_passed('Submit to A&D', ' ')
 
     except Exception:
         with allure.step('Error screenshot'):
